@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 [System.Serializable]
 public class Boundary
@@ -8,11 +9,20 @@ public class Boundary
 	public float xMin, xMax, yMin, yMax;
 }
 
-public class Movement : MonoBehaviour 
+public class Movement : NetworkBehaviour 
 {
 	public float speed;
 	public Boundary boundary;
 	float moveHorizontal, moveVertical;
+
+	void Update()
+	{
+		if (!isLocalPlayer) 
+		{
+			Destroy (this);
+			return;
+		}
+	}
 
 	void FixedUpdate () 
 	{
